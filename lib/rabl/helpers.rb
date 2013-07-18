@@ -96,7 +96,7 @@ module Rabl
     # fetch_from_cache('some_key') { ...rabl template result... }
     def fetch_result_from_cache(cache_key, cache_options=nil, &block)
       expanded_cache_key = ActiveSupport::Cache.expand_cache_key(cache_key, :rabl)
-      Rails.logger.debug "RABL: fetching result from cache with key: " % expanded_cache_key
+      Rails.logger.debug "RABL: fetching result from cache with key: %s" % expanded_cache_key
       Rabl.configuration.cache_engine.fetch(expanded_cache_key, cache_options, &block)
     end
 
