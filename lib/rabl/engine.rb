@@ -21,10 +21,11 @@ module Rabl
     # Rabl::Engine.new("...source...", { :format => "xml" }).render(scope, { :foo => "bar", :object => @user })
     def render(scope, locals, &block)
       reset_options!
-      @_locals, @_scope = locals, scope
+      @_locals, @_scope = locals.merge!(locals.delete(:locals) || {}), scope
       self.copy_instance_variables_from(@_scope, [:@assigns, :@helpers])
-      locals.merge!(locals.delete(:locals) || {})
+      #locals.merge!(locals.delete(:locals) || {})
       locals.each { |k,v| instance_variable_set(:"@#{k}", v) }
+
       @_options[:scope] = @_scope
       @_options[:format] ||= self.request_format
       data = locals[:object].nil? ? self.default_object : locals[:object]
